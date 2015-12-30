@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import scipy.stats as stats
 
-loansData = pd.read_csv('loansData.csv')
+loansData = pd.read_csv('../resources/loansData.csv')
 
 loansData.dropna(inplace=True)
 

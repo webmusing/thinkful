@@ -5,7 +5,7 @@ from scipy import stats
 import collections
 
 # Load the reduced version of the Lending Club Dataset
-loansData = pd.read_csv('loansData.csv')
+loansData = pd.read_csv('../resources/loansData.csv')
 # Drop null rows
 loansData.dropna(inplace=True)
 
