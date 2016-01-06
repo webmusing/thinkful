@@ -13,20 +13,25 @@ print loansData['Loan.Length'][0:5]
 print loansData['FICO.Range'][0:5]
 
 # Remove % symbol
-print "Removed symbol"
+#print "Removed symbol"
 interest_rate = loansData['Interest.Rate'].map(lambda x: round(float(x.rstrip('%'))/100,4))
-print interest_rate[0:5]
+loansData['Interest.Rate'] = loansData['Interest.Rate'].map(lambda x: round(float(x.rstrip('%'))/100,4)) * 100
+#print interest_rate[0:5]
 
 # Remove months
-print "Removed months"
+#print "Removed months"
 loan_length = loansData['Loan.Length'].map(lambda x: int(x.rstrip(' months')))
-print loan_length[0:5]
+loansData['Loan.Length'] = loansData['Loan.Length'].map(lambda x: int(x.rstrip(' months')))
+#print loan_length[0:5]
 
 # Remove dashes into tuple or list
 fico_range = loansData['FICO.Range'].map(lambda x: x.split('-'))
-print fico_range[0:5]
+#print fico_range[0:5]
 fico_score = fico_range.map(lambda x: x[0]).astype(int)
-print fico_score[0:5]
+loansData['FICO.Range'] = fico_range.map(lambda x: x[0]).astype(int)
+#print fico_score[0:5]
+
+print loansData.head()
 
 # Plot Histogram of FICO score
 plt.figure()
@@ -48,3 +53,5 @@ model = sm.OLS(y,X)
 f = model.fit()
 
 print f.summary()
+
+loansData.to_csv('../resources/loansData_clean.csv', header=True, index=False)
