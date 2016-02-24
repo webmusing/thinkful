@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests, json
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 def main():
 	list_headers = list()
@@ -29,18 +31,27 @@ def main():
 			row_list.append(td.getText())
 		data_list.append(row_list)
 
-	#print data_list
-
 	tbl_df = pd.DataFrame(data_list)
-	print list_headers
-	#print tbl_df.columns.values.tolist()
-	#print tbl_df
 
-	tbl_df.dropna(axis=1,how='all',inplace=True)
-	#print tbl_df
-	#print list_headers
-	print tbl_df.columns.values.tolist()
-	#print tbl_df['Men']
+	tbl_df[2] = np.nan
+	tbl_df[3] = np.nan
+	tbl_df[5] = np.nan
+	tbl_df[6] = np.nan
+	tbl_df[8] = np.nan
+	tbl_df[9] = np.nan
+	tbl_df[11] = np.nan
+	tbl_df.dropna(axis=1,inplace=True)
+	# Setting column headers for readability
+	tbl_df.columns = ['Country_Area','Year','Total','Men','Women']
+
+	tbl_df['Year'] = pd.to_datetime(tbl_df['Year'], format='%Y')
+
+	tbl_df[['Total','Men','Women']] = tbl_df[['Total','Men','Women']].fillna(0).astype(int)
+	
+	plt.figure()
+	tbl_df.boxplot()
+	plt.show()
+	
 	
 if __name__ == '__main__':
 	main()
